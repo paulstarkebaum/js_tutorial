@@ -1,0 +1,38 @@
+#!/usr/bin/node
+
+// Returns the paragraphs from a Wikipedia link, stripped of reference numbers.
+
+// Library for scraping a web page
+let urllib = require("urllib");
+// Enters a command line argument.
+if (process.argv.length<3) {
+	return console.log("Error: Please enter a wikipedia URL.");
+
+}
+let url = process.argv[2];
+
+
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+// download the contents to the webpage
+urllib.request(url, { followRedirect: true }, function(error, data, response) {
+	// save the downloaded page as a string
+	let body = data.toString();
+	// Simulate a Document object model
+	let { document } = (new JSDOM(body)).window;
+	// Use querySelecterAll to return all elements searched for
+	// in this case it return the <p> paragraph tags
+	// and the reference css class
+	let paragraphs = document.querySelectorAll("p");
+	let references = document.querySelectorAll(".reference");
+	// references is a node list of references, we reomve them 
+	// from the document with the remove method
+	references.forEach(function(reference) {
+		reference.remove();
+	})
+// print the contents of the paragraphs
+	paragraphs.forEach(function(paragraph) {
+		console.log(paragraph.textContent);
+	});
+});
+

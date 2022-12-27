@@ -1,0 +1,35 @@
+#!/usr/bin/node
+
+let urllib = require("urllib");
+let Phrase = require("pstark-pal2");
+let url = "https://cdn.learnenough.com/phrases.txt";
+
+console.log("first part")
+
+urllib.request(url, { followRedirect: true }, function(error, data, response) {
+	let body = data.toString();
+	let lines = body.split("\n");
+	console.log(body);
+	console.log(lines);	
+	let palindromes = lines.filter(line => new Phrase(line).palindrome());
+	//  {
+	// 	line = new Phrase(line);
+	// 	line.palindrome();
+	// });
+	palindromes.forEach(function(palindrome) {
+		console.log("palindrome detected:", palindrome);
+	});
+});
+
+
+// urllib.request(url, { followRedirect: true }, function(error, data, response) {
+// 	let body = data.toString();
+// 	body.split("\n").forEach(function(line) {
+// 		let phrase = new Phrase(line);
+// 		// console.log(line)
+
+// 		if (phrase.palindrome()) {
+// 			console.log("palindrome detected:", line);
+// 		}
+// 	});
+// });

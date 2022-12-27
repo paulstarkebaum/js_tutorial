@@ -1,12 +1,13 @@
 #!/usr/bin/node
 
 let fs = require("fs");
-let Phrase =  require("pstark-pal2");
+let Phrase = require("pstark-pal2");
 
-let text = fs.readFileSync("phrases.txt", "utf-8");
+let text = fs.readFileSync("phrases.txt", "utf8");
 text.split("\n").forEach(function(line) {
 	let phrase = new Phrase(line);
 	if (phrase.palindrome()) {
 	console.log("palindrome detected:", line);
+//	fs.writeFile('./palindromes.txt', "\n\n Palindrome: " + line , {flag: 'a+'}, err => {});
 	}
 });
